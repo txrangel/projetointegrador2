@@ -1,4 +1,4 @@
-## Dashboard Power BI com Laravel
+## Projeto Integrador - Acompanhamento de estoque Orbit
 Esse projeto é um sistema de acompanhamento de estoque feito para a empresa Orbit com parceria com a Univesp para o projeto integrador 2.
 
 ### Funcionalidades
