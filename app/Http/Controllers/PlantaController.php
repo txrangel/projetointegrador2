@@ -46,7 +46,7 @@ class PlantaController extends Controller
                     'dia_da_semana_id' => $diaId,
                 ]);
             }
-            return redirect()->route('dashboard')->with('sucess', $planta->nome . ' criado!!!');
+            return redirect()->route('plantas.index')->with('sucess', $planta->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -88,7 +88,7 @@ class PlantaController extends Controller
                     'dia_da_semana_id' => $diaId,
                 ]);
             }
-            return redirect()->route('dashboard')->with('sucess', $planta->nome . ' alterado!!!');
+            return redirect()->route('plantas.index')->with('sucess', $planta->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -103,7 +103,7 @@ class PlantaController extends Controller
             PlantaPorDiaDaSemana::where('planta_id', $planta->id)->delete();
             // Excluir a planta
             $planta->delete();
-            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
+            return redirect()->route('plantas.index')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

@@ -34,7 +34,7 @@ class DiaDaSemanaController extends Controller
                 'horario_fim' => 'required',
             ]);
             $dia = DiaDaSemana::create($validated);
-            return redirect()->route('dashboard')->with('sucess', $dia->nome . ' criado!!!');
+            return redirect()->route('dias_da_semana.index')->with('sucess', $dia->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -50,7 +50,7 @@ class DiaDaSemanaController extends Controller
                 'horario_fim' => 'required',
             ]);
             $dia->update($validated);
-            return redirect()->route('dashboard')->with('sucess', $dia->nome . ' alterado!!!');
+            return redirect()->route('dias_da_semana.index')->with('sucess', $dia->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -61,7 +61,7 @@ class DiaDaSemanaController extends Controller
         try {
             $dia = DiaDaSemana::findOrFail($id);
             $dia->delete();
-            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
+            return redirect()->route('dias_da_semana.index')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

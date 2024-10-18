@@ -32,7 +32,7 @@ class UnidadeDeMedidaController extends Controller
                 'sigla' => 'required|string|unique:unidades_de_medidas',
             ]);
             $unidade = UnidadeDeMedida::create($validated);
-            return redirect()->route('dashboard')->with('sucess', $unidade->nome . ' criado!!!');
+            return redirect()->route('unidades_medida.index')->with('sucess', $unidade->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -46,7 +46,7 @@ class UnidadeDeMedidaController extends Controller
                 'sigla' => 'string|unique:unidades_de_medidas,sigla,' . $unidade->id,
             ]);
             $unidade->update($validated);
-            return redirect()->route('dashboard')->with('sucess', $unidade->nome . ' alterado!!!');
+            return redirect()->route('unidades_medida.index')->with('sucess', $unidade->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -57,7 +57,7 @@ class UnidadeDeMedidaController extends Controller
         try {
             $unidade = UnidadeDeMedida::findOrFail($id);
             $unidade->delete();
-            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
+            return redirect()->route('unidades_medida.index')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

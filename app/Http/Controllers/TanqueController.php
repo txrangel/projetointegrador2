@@ -39,7 +39,7 @@ class TanqueController extends Controller
                 'id_externo' => 'required|string',
             ]);
             $tanque = Tanque::create($validated);
-            return redirect()->route('dashboard')->with('sucess', $tanque->id_externo . ' criado!!!');
+            return redirect()->route('tanques.index')->with('sucess', $tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -55,7 +55,7 @@ class TanqueController extends Controller
                 'id_externo' => 'required|string',
             ]);
             $tanque->update($validated);
-            return redirect()->route('dashboard')->with('sucess', $tanque->id_externo . ' alterado!!!');
+            return redirect()->route('tanques.index')->with('sucess', $tanque->id_externo . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -65,7 +65,7 @@ class TanqueController extends Controller
         try {
             $tanque = Tanque::findOrFail($id);
             $tanque->delete();
-            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
+            return redirect()->route('tanques.index')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

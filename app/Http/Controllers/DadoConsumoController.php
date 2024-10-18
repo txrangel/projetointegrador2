@@ -36,7 +36,7 @@ class DadoConsumoController extends Controller
                 'tanque_id' => 'required|exists:tanques,id',
             ]);
             $dado = DadoConsumo::create($validated);
-            return redirect()->route('dashboard')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' criado!!!');
+            return redirect()->route('dados_consumo.index')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -69,7 +69,7 @@ class DadoConsumoController extends Controller
                 'tanque_id' => 'required|exists:tanques,id',
             ]);
             $dado->update($validated);
-            return redirect()->route('dashboard')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' alterado!!!');
+            return redirect()->route('dados_consumo.index')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -98,7 +98,7 @@ class DadoConsumoController extends Controller
         try {
             $dado = DadoConsumo::findOrFail($id);
             $dado->delete();
-            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
+            return redirect()->route('dados_consumo.index')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
