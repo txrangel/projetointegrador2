@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TanqueCreateUpdate;
 use App\Models\Planta;
 use App\Models\Tanque;
 use App\Models\UnidadeDeMedida;
@@ -28,33 +29,20 @@ class TanqueController extends Controller
         $tanque = Tanque::findOrFail($id);
         return view('tanques.edit', compact(['tanque','plantas','unidadesDeMedidas']));
     }
-    public function store(Request $request)
+    public function store(TanqueCreateUpdate $request)
     {
         try {
-            $validated = $request->validate([
-                'planta_id' => 'required|exists:plantas,id',
-                'maximo' => 'required|numeric',
-                'minimo' => 'required|numeric',
-                'unidade_de_medida_id' => 'required|exists:unidades_de_medidas,id',
-                'id_externo' => 'required|string',
-            ]);
-            $tanque = Tanque::create($validated);
+            $tanque = Tanque::create($request->all());
             return redirect()->route('tanques.index')->with('sucess', $tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
-    public function update(Request $request, Tanque $tanque)
+    public function update(TanqueCreateUpdate $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'planta_id' => 'exists:plantas,id',
-                'maximo' => 'required|numeric',
-                'minimo' => 'required|numeric',
-                'unidade_de_medida_id' => 'required|exists:unidades_de_medidas,id',
-                'id_externo' => 'required|string',
-            ]);
-            $tanque->update($validated);
+            $tanque = Tanque::findOrFail($id);
+            $tanque->update($request->all());
             return redirect()->route('tanques.index')->with('sucess', $tanque->id_externo . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());

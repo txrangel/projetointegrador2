@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DadoConsumoCreateUpdate;
 use App\Models\DadoConsumo;
 use App\Models\Tanque;
 use Illuminate\Http\Request;
@@ -27,15 +28,10 @@ class DadoConsumoController extends Controller
         return view('dados.edit', compact(['dado','tanques']));
     }
 
-    public function store(Request $request)
+    public function store(DadoConsumoCreateUpdate $request)
     {
         try {
-            $validated = $request->validate([
-                'data_hora' => 'required|date',
-                'nivel' => 'required|numeric',
-                'tanque_id' => 'required|exists:tanques,id',
-            ]);
-            $dado = DadoConsumo::create($validated);
+            $dado = DadoConsumo::create($request->all());
             return redirect()->route('dados_consumo.index')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
@@ -60,15 +56,11 @@ class DadoConsumoController extends Controller
         }
     }
 
-    public function update(Request $request, DadoConsumo $dado)
+    public function update(DadoConsumoCreateUpdate $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'data_hora' => 'required|date',
-                'nivel' => 'required|numeric',
-                'tanque_id' => 'required|exists:tanques,id',
-            ]);
-            $dado->update($validated);
+            $dado = DadoConsumo::findOrFail($id);
+            $dado->update($request->all());
             return redirect()->route('dados_consumo.index')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());

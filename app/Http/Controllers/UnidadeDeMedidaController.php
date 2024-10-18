@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UnidadeDeMedidaCreateUpdate;
 use App\Models\UnidadeDeMedida;
 use Illuminate\Http\Request;
 
@@ -24,28 +25,21 @@ class UnidadeDeMedidaController extends Controller
         return view('unidades.edit', compact('unidade'));
     }
 
-    public function store(Request $request)
+    public function store(UnidadeDeMedidaCreateUpdate $request)
     {
         try {
-            $validated = $request->validate([
-                'nome' => 'required|string',
-                'sigla' => 'required|string|unique:unidades_de_medidas',
-            ]);
-            $unidade = UnidadeDeMedida::create($validated);
+            $unidade = UnidadeDeMedida::create($request->all());
             return redirect()->route('unidades_medida.index')->with('sucess', $unidade->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
-    public function update(Request $request, UnidadeDeMedida $unidade)
+    public function update(UnidadeDeMedidaCreateUpdate $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'nome' => 'string',
-                'sigla' => 'string|unique:unidades_de_medidas,sigla,' . $unidade->id,
-            ]);
-            $unidade->update($validated);
+            $unidade = UnidadeDeMedida::findOrFail($id);
+            $unidade->update($request->all());
             return redirect()->route('unidades_medida.index')->with('sucess', $unidade->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());

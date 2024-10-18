@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DiaDaSemanaCreateUpdate;
 use App\Models\DiaDaSemana;
 use Illuminate\Http\Request;
 
@@ -24,32 +25,21 @@ class DiaDaSemanaController extends Controller
         return view('dias.edit', compact('dia'));
     }
 
-    public function store(Request $request)
+    public function store(DiaDaSemanaCreateUpdate $request)
     {
         try {
-            $validated = $request->validate([
-                'numero' => 'required|integer|unique:dias_da_semana',
-                'nome' => 'required|string',
-                'horario_inicio' => 'required',
-                'horario_fim' => 'required',
-            ]);
-            $dia = DiaDaSemana::create($validated);
+            $dia = DiaDaSemana::create($request->all());
             return redirect()->route('dias_da_semana.index')->with('sucess', $dia->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
-    public function update(Request $request, DiaDaSemana $dia)
+    public function update(DiaDaSemanaCreateUpdate $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'numero' => 'required|integer|unique:dias_da_semana',
-                'nome' => 'required|string',
-                'horario_inicio' => 'required',
-                'horario_fim' => 'required',
-            ]);
-            $dia->update($validated);
+            $dia = DiaDaSemana::findOrFail($id);
+            $dia->update($request->all());
             return redirect()->route('dias_da_semana.index')->with('sucess', $dia->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());

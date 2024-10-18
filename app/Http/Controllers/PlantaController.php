@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlantaCreateUpdate;
 use App\Models\DiaDaSemana;
 use App\Models\Planta;
 use App\Models\PlantaPorDiaDaSemana;
@@ -24,21 +25,11 @@ class PlantaController extends Controller
     }
 
     // Armazenar uma nova planta e seus vínculos com dias da semana
-    public function store(Request $request)
+    public function store(PlantaCreateUpdate $request)
     {
         try {
-            $validated = $request->validate([
-                'nome' => 'required|string|max:255',
-                'endereco' => 'required|string|max:255',
-                'cep' => 'required|string|max:8',
-                'maximo_carretas' => 'required|numeric',
-                'maximo_entregas' => 'required|numeric',
-                'qtd_entrega_padrao' => 'required|numeric',
-                'dias_da_semana' => 'array',  // Garantir que os dias da semana estão selecionados
-                'dias_da_semana.*' => 'exists:dias_da_semana,id',  // Validar os IDs dos dias
-            ]);
             // Criar a planta
-            $planta = Planta::create($validated);
+            $planta = Planta::create($request->all());
             // Salvar os dias da semana associados à planta
             foreach ($request->dias_da_semana as $diaId) {
                 PlantaPorDiaDaSemana::create([
@@ -63,21 +54,11 @@ class PlantaController extends Controller
     }
 
     // Atualizar uma planta e seus vínculos com dias da semana
-    public function update(Request $request, $id)
+    public function update(PlantaCreateUpdate $request, $id)
     {
         try {
             $planta = Planta::findOrFail($id);
-            $validated = $request->validate([
-                'nome' => 'required|string|max:255',
-                'endereco' => 'required|string|max:255',
-                'cep' => 'required|string|max:8',
-                'maximo_carretas' => 'required|numeric',
-                'maximo_entregas' => 'required|numeric',
-                'qtd_entrega_padrao' => 'required|numeric',
-                'dias_da_semana' => 'array',  // Garantir que os dias da semana estão selecionados
-                'dias_da_semana.*' => 'exists:dias_da_semana,id',  // Validar os IDs dos dias
-            ]);
-            $planta->update($validated);       // Buscar a planta e atualizar
+            $planta->update($request->all());       // Buscar a planta e atualizar
             // Remover os vínculos antigos
             PlantaPorDiaDaSemana::where('planta_id', $planta->id)->delete();
 
