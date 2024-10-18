@@ -59,7 +59,7 @@ class UnidadeDeMedidaController extends Controller
             $unidade->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage())->withInput(request()->all());
+            return back()->with('error', $e->getMessage());
         }
     }
 }
