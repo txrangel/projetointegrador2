@@ -18,10 +18,6 @@ git clone git@github.com:txrangel/projetointegrador2.git
 cd projetointegrador2
 ```
 
-#### Rodar as migrações:
-```bash
-./vendor/bin/sail artisan migrate
-```
 #### Iniciar o servidor:
 
 ```bash
@@ -34,9 +30,12 @@ npm install
 npm run dev
 ```
 
+#### Rodar as migrações:
+```bash
+./vendor/bin/sail artisan migrate
+```
+
 ### Melhorias Futuras
-- Arrumar os requests das alterações para ignorar o id do objeto editado
 - Criar factorys e seeders automaticos das tabelas
 - Criar testes automatizados
-- Ajustar os retornos para serem em um alert e nao um json
 - Demonstrar grafico de estoque por tempo

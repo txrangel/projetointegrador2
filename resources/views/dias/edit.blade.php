@@ -22,7 +22,7 @@
                 
                         <div>
                             <x-input-label for="numero" :value="__('Número')" />
-                            <x-text-input id="numero" name="numero" type="number" class="mt-1 block w-full" :value="old('numero', $dia->numero)" required />
+                            <x-text-input id="numero" name="numero" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('numero', $dia->numero)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('numero')" />
                         </div>
 

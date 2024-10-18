@@ -31,13 +31,13 @@
 
                         <div>
                             <x-input-label for="maximo" :value="__('Máximo')" />
-                            <x-text-input id="maximo" name="maximo" type="number" class="mt-1 block w-full" :value="old('maximo')" required />
+                            <x-text-input id="maximo" name="maximo" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('maximo')" required />
                             <x-input-error class="mt-2" :messages="$errors->get('maximo')" />
                         </div>
 
                         <div>
                             <x-input-label for="minimo" :value="__('Mínimo')" />
-                            <x-text-input id="minimo" name="minimo" type="number" class="mt-1 block w-full" :value="old('minimo')" required />
+                            <x-text-input id="minimo" name="minimo" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('minimo')" required />
                             <x-input-error class="mt-2" :messages="$errors->get('minimo')" />
                         </div>
 

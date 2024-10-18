@@ -40,19 +40,19 @@
 
                         <div>
                             <x-input-label for="maximo_carretas" :value="__('Máximo de Carretas')" />
-                            <x-text-input id="maximo_carretas" name="maximo_carretas" type="number" class="mt-1 block w-full" :value="old('maximo_carretas', $planta->maximo_carretas)" required />
+                            <x-text-input id="maximo_carretas" name="maximo_carretas" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('maximo_carretas', $planta->maximo_carretas)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('maximo_carretas')" />
                         </div>
 
                         <div>
                             <x-input-label for="maximo_entregas" :value="__('Máximo de Entregas')" />
-                            <x-text-input id="maximo_entregas" name="maximo_entregas" type="number" class="mt-1 block w-full" :value="old('maximo_entregas', $planta->maximo_entregas)" required />
+                            <x-text-input id="maximo_entregas" name="maximo_entregas" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('maximo_entregas', $planta->maximo_entregas)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('maximo_entregas')" />
                         </div>
 
                         <div>
                             <x-input-label for="qtd_entrega_padrao" :value="__('Quantidade de Entregas Padrão')" />
-                            <x-text-input id="qtd_entrega_padrao" name="qtd_entrega_padrao" type="number" class="mt-1 block w-full" :value="old('qtd_entrega_padrao', $planta->qtd_entrega_padrao)" required />
+                            <x-text-input id="qtd_entrega_padrao" name="qtd_entrega_padrao" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('qtd_entrega_padrao', $planta->qtd_entrega_padrao)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('qtd_entrega_padrao')" />
                         </div>
 

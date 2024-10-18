@@ -18,19 +18,11 @@
                     <form method="post" action="{{ route('dados_consumo.update', $dadoConsumo->id) }}" class="mt-6 space-y-6">
                         @csrf
                         @method('PUT')
-
                         <div>
                             <x-input-label for="data_hora" :value="__('Data e Hora')" />
                             <x-text-input id="data_hora" name="data_hora" type="datetime-local" class="mt-1 block w-full" :value="old('data_hora', $dadoConsumo->data_hora)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('data_hora')" />
                         </div>
-
-                        <div>
-                            <x-input-label for="nivel" :value="__('Nível')" />
-                            <x-text-input id="nivel" name="nivel" type="number" class="mt-1 block w-full" :value="old('nivel', $dadoConsumo->nivel)" required />
-                            <x-input-error class="mt-2" :messages="$errors->get('nivel')" />
-                        </div>
-
                         <div>
                             <x-input-label for="tanque_id" :value="__('Tanque')" />
                             <select id="tanque_id" name="tanque_id" class="mt-1 block w-full" required>
@@ -43,7 +35,11 @@
                             </select>
                             <x-input-error class="mt-2" :messages="$errors->get('tanque_id')" />
                         </div>
-
+                        <div>
+                            <x-input-label for="nivel" :value="__('Nível')" />
+                            <x-text-input id="nivel" name="nivel" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('nivel', $dadoConsumo->nivel)" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('nivel')" />
+                        </div>
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Atualizar') }}</x-primary-button>
                         </div>
