@@ -46,7 +46,7 @@ class PlantaController extends Controller
                     'dia_da_semana_id' => $diaId,
                 ]);
             }
-            return response()->json($planta, 201);
+            return redirect()->route('dashboard')->with('sucess', $planta->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -88,7 +88,7 @@ class PlantaController extends Controller
                     'dia_da_semana_id' => $diaId,
                 ]);
             }
-            return response()->json($planta, 200);
+            return redirect()->route('dashboard')->with('sucess', $planta->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }

@@ -34,7 +34,7 @@ class DiaDaSemanaController extends Controller
                 'horario_fim' => 'required',
             ]);
             $dia = DiaDaSemana::create($validated);
-            return response()->json($dia, 201);
+            return redirect()->route('dashboard')->with('sucess', $dia->nome . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -50,7 +50,7 @@ class DiaDaSemanaController extends Controller
                 'horario_fim' => 'required',
             ]);
             $dia->update($validated);
-            return response()->json($dia, 200);
+            return redirect()->route('dashboard')->with('sucess', $dia->nome . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }

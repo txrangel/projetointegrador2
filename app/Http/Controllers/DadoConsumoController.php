@@ -36,9 +36,27 @@ class DadoConsumoController extends Controller
                 'tanque_id' => 'required|exists:tanques,id',
             ]);
             $dado = DadoConsumo::create($validated);
-            return response()->json($dado, 201);
+            return redirect()->route('dashboard')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
+        }
+    }
+
+    public function storeAPI(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'data_hora' => 'required|date',
+                'nivel' => 'required|numeric',
+                'tanque_id' => 'required|exists:tanques,id',
+            ]);
+            $dado = DadoConsumo::create($validated);
+            return response()->json($dado, 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 
@@ -51,9 +69,27 @@ class DadoConsumoController extends Controller
                 'tanque_id' => 'required|exists:tanques,id',
             ]);
             $dado->update($validated);
-            return response()->json($dado, 200);
+            return redirect()->route('dashboard')->with('sucess', 'Dado para o tanque: ' . $dado->tanque->id_externo . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
+        }
+    }
+
+    public function updateAPI(Request $request, DadoConsumo $dado)
+    {
+        try {
+            $validated = $request->validate([
+                'data_hora' => 'required|date',
+                'nivel' => 'required|numeric',
+                'tanque_id' => 'required|exists:tanques,id',
+            ]);
+            $dado->update($validated);
+            return response()->json($dado, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 
@@ -65,6 +101,20 @@ class DadoConsumoController extends Controller
             return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deleteAPI($id)
+    {
+        try {
+            $dado = DadoConsumo::findOrFail($id);
+            $dado->delete();
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 }

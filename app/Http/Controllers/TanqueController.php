@@ -39,7 +39,7 @@ class TanqueController extends Controller
                 'id_externo' => 'required|string',
             ]);
             $tanque = Tanque::create($validated);
-            return response()->json($tanque, 201);
+            return redirect()->route('dashboard')->with('sucess', $tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
@@ -55,7 +55,7 @@ class TanqueController extends Controller
                 'id_externo' => 'required|string',
             ]);
             $tanque->update($validated);
-            return response()->json($tanque, 200);
+            return redirect()->route('dashboard')->with('sucess', $tanque->id_externo . ' alterado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
