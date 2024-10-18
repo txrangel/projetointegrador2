@@ -8,13 +8,13 @@ use App\Http\Controllers\TanqueController;
 use App\Http\Controllers\UnidadeDeMedidaController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/update/{id}', [PlantaController::class, 'update'])->name('plantas.update');
         Route::delete('/delete/{id}', [PlantaController::class, 'delete'])->name('plantas.delete');
     });    
+
+    Route::get('/', [TanqueController::class, 'dashboard'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';
