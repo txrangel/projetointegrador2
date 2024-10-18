@@ -65,7 +65,7 @@ class TanqueController extends Controller
         try {
             $tanque = Tanque::findOrFail($id);
             $tanque->delete();
-            return response()->json(null, 204);
+            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

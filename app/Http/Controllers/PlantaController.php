@@ -103,7 +103,7 @@ class PlantaController extends Controller
             PlantaPorDiaDaSemana::where('planta_id', $planta->id)->delete();
             // Excluir a planta
             $planta->delete();
-            return response()->json(null, 204);
+            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

@@ -61,7 +61,7 @@ class DiaDaSemanaController extends Controller
         try {
             $dia = DiaDaSemana::findOrFail($id);
             $dia->delete();
-            return response()->json(null, 204);
+            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

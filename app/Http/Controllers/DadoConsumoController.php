@@ -62,7 +62,7 @@ class DadoConsumoController extends Controller
         try {
             $dado = DadoConsumo::findOrFail($id);
             $dado->delete();
-            return response()->json(null, 204);
+            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

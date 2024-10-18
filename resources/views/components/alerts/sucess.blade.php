@@ -1,4 +1,4 @@
-<div x-data="{ alertIsVisible: true }" x-show="alertIsVisible" class="relative w-full overflow-hidden rounded-md border border-green-500 bg-white text-neutral-600 dark:bg-neutral-950 dark:text-neutral-300" role="alert" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
+<div x-data="{ alertIsVisible: true }" x-show="alertIsVisible" class="z-50 fixed top-6 right-6 -ml-52 flex items-center w-full max-w-xs mb-4 overflow-hidden rounded-md border border-green-500 bg-white text-neutral-600 dark:bg-neutral-950 dark:text-neutral-300" role="alert" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
     <div class="flex w-full items-center gap-2 bg-green-500/10 p-4">
         <div class="bg-green-500/15 text-green-500 rounded-full p-1" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6" aria-hidden="true">

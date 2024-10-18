@@ -57,7 +57,7 @@ class UnidadeDeMedidaController extends Controller
         try {
             $unidade = UnidadeDeMedida::findOrFail($id);
             $unidade->delete();
-            return response()->json(null, 204);
+            return redirect()->route('dashboard')->with('sucess', 'Item deletado!!!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
