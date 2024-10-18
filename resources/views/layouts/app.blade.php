@@ -29,6 +29,12 @@
 
             <!-- Page Content -->
             <main class="text-gray-800 dark:text-gray-500">
+                @if (session('sucess'))
+                    @include('components.alerts.sucess')
+                @endif
+                @if (session('error'))
+                    @include('components.alerts.danger')
+                @endif
                 @yield('content')
             </main>
         </div>
