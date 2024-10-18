@@ -48,10 +48,7 @@ class PlantaController extends Controller
             }
             return response()->json($planta, 201);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
@@ -93,10 +90,7 @@ class PlantaController extends Controller
             }
             return response()->json($planta, 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
@@ -111,10 +105,7 @@ class PlantaController extends Controller
             $planta->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 }

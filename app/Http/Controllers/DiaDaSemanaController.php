@@ -36,10 +36,7 @@ class DiaDaSemanaController extends Controller
             $dia = DiaDaSemana::create($validated);
             return response()->json($dia, 201);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
@@ -55,10 +52,7 @@ class DiaDaSemanaController extends Controller
             $dia->update($validated);
             return response()->json($dia, 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
@@ -69,10 +63,7 @@ class DiaDaSemanaController extends Controller
             $dia->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 }

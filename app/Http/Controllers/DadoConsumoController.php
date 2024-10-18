@@ -38,10 +38,7 @@ class DadoConsumoController extends Controller
             $dado = DadoConsumo::create($validated);
             return response()->json($dado, 201);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
@@ -56,10 +53,7 @@ class DadoConsumoController extends Controller
             $dado->update($validated);
             return response()->json($dado, 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 
@@ -70,10 +64,7 @@ class DadoConsumoController extends Controller
             $dado->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage())->withInput(request()->all());
         }
     }
 }
