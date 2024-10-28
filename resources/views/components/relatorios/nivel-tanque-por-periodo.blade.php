@@ -1,4 +1,4 @@
-<div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+<div class=" w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between mb-5">
         <div class="grid gap-4 grid-cols-2">
             @foreach ($tanques as $tanque)
