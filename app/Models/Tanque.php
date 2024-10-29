@@ -10,7 +10,20 @@ class Tanque extends Model
     use HasFactory;
 
     protected $table = 'tanques';
-    protected $fillable = ['planta_id','maximo','minimo','unidade_de_medida_id','id_externo'];
+    protected $fillable = [
+        'planta_id',
+        'maximo',
+        'minimo',
+        'unidade_de_medida_id',
+        'id_externo',
+        'estoque_atual',
+        'consumo_medio',
+        'ponto_de_pedido',
+        'ponto_de_entrega',
+        'qtd_entrega_padrao',
+        'lead_time'
+    ];
+    
     public function planta()
     {
         return $this->belongsTo(Planta::class, 'planta_id');

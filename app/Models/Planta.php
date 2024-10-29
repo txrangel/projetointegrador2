@@ -10,7 +10,7 @@ class Planta extends Model
     use HasFactory;
 
     protected $table = 'plantas';
-    protected $fillable = ['nome','endereco','cep','maximo_carretas','maximo_entregas','qtd_entrega_padrao'];
+    protected $fillable = ['nome','endereco','cep'];
 
     public function tanques()
     {

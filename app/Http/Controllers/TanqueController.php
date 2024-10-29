@@ -33,6 +33,7 @@ class TanqueController extends Controller
     public function store(TanqueCreateUpdate $request)
     {
         try {
+            dd($request->all());
             $tanque = Tanque::create($request->all());
             return redirect()->route('tanques.index')->with('sucess', $tanque->id_externo . ' criado!!!');
         } catch (\Exception $e) {

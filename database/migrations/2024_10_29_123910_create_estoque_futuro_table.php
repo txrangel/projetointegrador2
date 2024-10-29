@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plantas', function (Blueprint $table) {
+        Schema::create('estoque_futuro', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tanque_id')->constrained('tanques');
+            $table->double('nivel');
+            $table->date('data');
+            $table->boolean('ponto_pedido');
+            $table->boolean('ponto_entrega');
             $table->timestamps();
-            $table->string('nome');
-            $table->string('endereco');
-            $table->char('cep',8);
-            //$table->integer('maximo_carretas');
-            //$table->integer('maximo_entregas');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plantas');
+        Schema::dropIfExists('estoque_futuro');
     }
 };

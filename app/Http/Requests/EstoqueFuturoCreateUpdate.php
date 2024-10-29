@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class PlantaCreateUpdate extends FormRequest
+class EstoqueFuturoCreateUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +21,12 @@ class PlantaCreateUpdate extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('id');
         return [
-            'nome' => ['required', 'string', 'max:255',Rule::unique('plantas')->ignore($id)],
-            'endereco' => ['required', 'string', 'max:255'],
-            'cep' => ['required', 'string', 'max:8'],
-            'dias_da_semana' => ['array'], 
-            'dias_da_semana.*' => ['exists:dias_da_semana,id'],  
+            'data' => ['required', 'date'],
+            'nivel' => ['required', 'numeric'],
+            'tanque_id' => ['required', 'exists:tanques,id'],
+            'ponto_pedido' => ['required', 'boolean'],
+            'ponto_entrega' => ['required', 'boolean'],
         ];
     }
 }

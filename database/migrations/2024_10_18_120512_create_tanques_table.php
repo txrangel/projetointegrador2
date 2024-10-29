@@ -16,6 +16,12 @@ return new class extends Migration
             $table->foreignId('planta_id')->constrained('plantas');
             $table->double('maximo');
             $table->double('minimo');
+            $table->double('estoque_atual');
+            $table->double('consumo_medio');
+            $table->double('ponto_de_pedido');
+            $table->double('ponto_de_entrega')->nullable();
+            $table->integer('lead_time');
+            $table->double('qtd_entrega_padrao');
             $table->foreignId('unidade_de_medida_id')->constrained('unidades_de_medidas');
             $table->string('id_externo')->unique();
             $table->timestamps();

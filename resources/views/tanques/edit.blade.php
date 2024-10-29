@@ -33,18 +33,6 @@
                         </div>
 
                         <div>
-                            <x-input-label for="maximo" :value="__('Máximo')" />
-                            <x-text-input id="maximo" name="maximo" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('maximo', $tanque->maximo)" required />
-                            <x-input-error class="mt-2" :messages="$errors->get('maximo')" />
-                        </div>
-
-                        <div>
-                            <x-input-label for="minimo" :value="__('Mínimo')" />
-                            <x-text-input id="minimo" name="minimo" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('minimo', $tanque->minimo)" required />
-                            <x-input-error class="mt-2" :messages="$errors->get('minimo')" />
-                        </div>
-
-                        <div>
                             <x-input-label for="unidade_de_medida_id" :value="__('Unidade de Medida')" />
                             <select id="unidade_de_medida_id" name="unidade_de_medida_id" class="mt-1 block w-full" required>
                                 <option value="">Selecione uma unidade de medida</option>
@@ -61,6 +49,24 @@
                             <x-input-label for="id_externo" :value="__('ID Externo')" />
                             <x-text-input id="id_externo" name="id_externo" type="text" class="mt-1 block w-full" :value="old('id_externo', $tanque->id_externo)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('id_externo')" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="maximo" :value="__('Máximo')" />
+                            <x-text-input id="maximo" name="maximo" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('maximo', $tanque->maximo)" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('maximo')" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="minimo" :value="__('Mínimo')" />
+                            <x-text-input id="minimo" name="minimo" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('minimo', $tanque->minimo)" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('minimo')" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="qtd_entrega_padrao" :value="__('Quantidade de Entregas Padrão')" />
+                            <x-text-input id="qtd_entrega_padrao" name="qtd_entrega_padrao" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full" :value="old('qtd_entrega_padrao', $planta->qtd_entrega_padrao)" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('qtd_entrega_padrao')" />
                         </div>
 
                         <div class="flex items-center gap-4">
