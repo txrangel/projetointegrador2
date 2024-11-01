@@ -143,7 +143,7 @@ class TanqueController extends Controller
             $tanque = Tanque::findOrFail($id);
             //dd($tanque);
             // 2. Excluir todos os dados de estoque relacionados ao tanque
-            $tanque->estoqueFuturo()->delete();
+            $tanque->estoqueFuturo()->delete();//INATIVAR
             // 3. Inicializar o nível do estoque com o estoque atual do tanque
             $nivelEstoque = $tanque->estoque_atual;
             // 4. Definir o ponto de pedido e entrega com base nas regras
@@ -151,8 +151,9 @@ class TanqueController extends Controller
             $pontoEntrega       = $tanque->ponto_de_entrega;
             $qtdEntregaPadrao   = $tanque->qtd_entrega_padrao;
             $consumo_medio      = $tanque->consumo_medio;
-            $criou_pedido       = false;
             $maximo             = $tanque->maximo;
+            $criou_pedido       = false;
+            $entregue = false;
             // 5. Criar os dados de estoque para os próximos 30 dias
             $nivel              = 0;
             for ($i = 0; $i < 30; $i++) {
@@ -170,6 +171,7 @@ class TanqueController extends Controller
                 if ($nivel <= $pontoPedido && $criou_pedido==false) {
                     $pontoPedidoValido = true;
                     $criou_pedido = true;
+                    //CRIAR UM PEDIDO NA TABELA DEPEDIDOS
                 }
                 // Definir se o ponto de entrega deve ser ativado
                 if ($nivel <= $pontoEntrega) {
@@ -179,6 +181,8 @@ class TanqueController extends Controller
                     if($nivel+$qtdEntregaPadrao<=$maximo){
                         $nivel += $qtdEntregaPadrao;
                         $criou_pedido = false;
+                        $entregue = true;
+                        //CRIAR UMA ENTREGA NA TABELA DE ENTREGAS
                     }
                 }
                 // 6. Criar um novo registro de estoque
