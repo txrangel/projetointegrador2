@@ -38,4 +38,8 @@ class Tanque extends Model
     {
         return $this->hasMany(DadoConsumo::class, 'tanque_id');
     }
+    public function EstoqueFuturo()
+    {
+        return $this->hasMany(EstoqueFuturo::class, 'tanque_id');
+    }
 }

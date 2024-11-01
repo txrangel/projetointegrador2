@@ -48,6 +48,16 @@
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full"
                                     :value="old('consumo_medio')" required /> <x-input-error class="mt-2" :messages="$errors->get('consumo_medio')" />
                             </div>
+                            <div> <x-input-label for="lead_time" :value="__('Lead Time')" /> <x-text-input id="lead_time"
+                                    name="lead_time" type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full"
+                                    :value="old('lead_time')" required /> <x-input-error class="mt-2" :messages="$errors->get('lead_time')" />
+                            </div>
+                            <div> <x-input-label for="qtd_entrega_padrao" :value="__('Quantidade de Entregas Padrão')" /> <x-text-input
+                                    id="qtd_entrega_padrao" name="qtd_entrega_padrao" type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full"
+                                    :value="old('qtd_entrega_padrao')" required /> <x-input-error class="mt-2" :messages="$errors->get('qtd_entrega_padrao')" />
+                            </div>
                             <h1>Ponto de pedido fixo ou relativo?</h1>
                             <div> <label> <input type="radio" name="tipo_ponto_pedido" value="fixo"
                                         onclick="toggleFields()" checked> Fixo </label> <label class="ml-4"> <input
@@ -63,16 +73,6 @@
                                     type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                     class="mt-1 block w-full" :value="old('ponto_de_entrega')" /> <x-input-error class="mt-2"
                                     :messages="$errors->get('ponto_de_entrega')" /> </div>
-                            <div> <x-input-label for="lead_time" :value="__('Lead Time')" /> <x-text-input id="lead_time"
-                                    name="lead_time" type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full"
-                                    :value="old('lead_time')" required /> <x-input-error class="mt-2" :messages="$errors->get('lead_time')" />
-                            </div>
-                            <div> <x-input-label for="qtd_entrega_padrao" :value="__('Quantidade de Entregas Padrão')" /> <x-text-input
-                                    id="qtd_entrega_padrao" name="qtd_entrega_padrao" type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="mt-1 block w-full"
-                                    :value="old('qtd_entrega_padrao')" required /> <x-input-error class="mt-2" :messages="$errors->get('qtd_entrega_padrao')" />
-                            </div>
                             <div class="flex items-center gap-4">
                                 <x-primary-button>{{ __('Criar Tanque') }}</x-primary-button>
                             </div>
@@ -87,24 +87,18 @@
             const tipoPontoPedido = document.querySelector('input[name="tipo_ponto_pedido"]:checked').value;
             const pontoPedidoContainer = document.getElementById('pontoPedidoContainer');
             const pontoEntregaContainer = document.getElementById('pontoEntregaContainer');
-            const consumoMedio = parseFloat(document.getElementById('consumo_medio').value) || 0;
-            const leadTime = parseFloat(document.getElementById('lead_time').value) || 0;
             if (tipoPontoPedido === 'fixo') {
                 pontoPedidoContainer.style.display = 'block';
                 pontoEntregaContainer.style.display = 'none';
                 document.getElementById('ponto_de_pedido').required = true;
                 document.getElementById('ponto_de_entrega').required = false;
-                const pontoPedido = parseFloat(document.getElementById('ponto_de_pedido').value) || 0;
-                const pontoEntrega = pontoPedido - (consumoMedio * leadTime);
-                document.getElementById('ponto_de_entrega').value = pontoEntrega;
+                document.getElementById('ponto_de_entrega').value = null;
             } else {
                 pontoPedidoContainer.style.display = 'none';
                 pontoEntregaContainer.style.display = 'block';
                 document.getElementById('ponto_de_pedido').required = false;
                 document.getElementById('ponto_de_entrega').required = true;
-                const pontoEntrega = parseFloat(document.getElementById('ponto_de_entrega').value) || 0;
-                const pontoPedido = pontoEntrega + (consumoMedio * leadTime);
-                document.getElementById('ponto_de_pedido').value = pontoPedido;
+                document.getElementById('ponto_de_pedido').value = null;
             }
         }
     </script>

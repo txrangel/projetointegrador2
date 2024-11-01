@@ -8,39 +8,10 @@ use App\Http\Controllers\TanqueController;
 use App\Http\Controllers\UnidadeDeMedidaController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-    // Rotas de DadoConsumo
-    Route::prefix('dados-consumo')->group(function () {
-        Route::get('/', [DadoConsumoController::class, 'index'])->name('dados_consumo.index');
-        Route::get('/create', [DadoConsumoController::class, 'create'])->name('dados_consumo.create');
-        Route::get('/edit/{id}', [DadoConsumoController::class, 'edit'])->name('dados_consumo.edit');
-        Route::post('/store', [DadoConsumoController::class, 'store'])->name('dados_consumo.store');
-        Route::put('/update/{id}', [DadoConsumoController::class, 'update'])->name('dados_consumo.update');
-        Route::delete('/delete/{id}', [DadoConsumoController::class, 'delete'])->name('dados_consumo.delete');
-    });
-
-    // Rotas de Tanques
-    Route::prefix('tanques')->group(function () {
-        Route::get('/', [TanqueController::class, 'index'])->name('tanques.index');
-        Route::get('/create', [TanqueController::class, 'create'])->name('tanques.create');
-        Route::get('/edit/{id}', [TanqueController::class, 'edit'])->name('tanques.edit');
-        Route::post('/store', [TanqueController::class, 'store'])->name('tanques.store');
-        Route::put('/update/{id}', [TanqueController::class, 'update'])->name('tanques.update');
-        Route::delete('/delete/{id}', [TanqueController::class, 'delete'])->name('tanques.delete');
-    });
 
     // Rotas de Unidades de Medida
     Route::prefix('unidades-medida')->group(function () {
@@ -71,6 +42,26 @@ Route::middleware('auth')->group(function () {
         Route::put('/update/{id}', [PlantaController::class, 'update'])->name('plantas.update');
         Route::delete('/delete/{id}', [PlantaController::class, 'delete'])->name('plantas.delete');
     });    
+
+    // Rotas de Tanques
+    Route::prefix('tanques')->group(function () {
+        Route::get('/', [TanqueController::class, 'index'])->name('tanques.index');
+        Route::get('/create', [TanqueController::class, 'create'])->name('tanques.create');
+        Route::get('/edit/{id}', [TanqueController::class, 'edit'])->name('tanques.edit');
+        Route::post('/store', [TanqueController::class, 'store'])->name('tanques.store');
+        Route::put('/update/{id}', [TanqueController::class, 'update'])->name('tanques.update');
+        Route::delete('/delete/{id}', [TanqueController::class, 'delete'])->name('tanques.delete');
+    });
+
+    // Rotas de DadoConsumo
+    Route::prefix('dados-consumo')->group(function () {
+        Route::get('/', [DadoConsumoController::class, 'index'])->name('dados_consumo.index');
+        Route::get('/create', [DadoConsumoController::class, 'create'])->name('dados_consumo.create');
+        Route::get('/edit/{id}', [DadoConsumoController::class, 'edit'])->name('dados_consumo.edit');
+        Route::post('/store', [DadoConsumoController::class, 'store'])->name('dados_consumo.store');
+        Route::put('/update/{id}', [DadoConsumoController::class, 'update'])->name('dados_consumo.update');
+        Route::delete('/delete/{id}', [DadoConsumoController::class, 'delete'])->name('dados_consumo.delete');
+    });
 
     Route::get('/', [TanqueController::class, 'dashboard'])->name('dashboard');
 });

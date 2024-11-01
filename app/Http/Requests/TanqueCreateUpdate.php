@@ -29,13 +29,13 @@ class TanqueCreateUpdate extends FormRequest
             'maximo' => ['required', 'numeric'],
             'minimo' => ['required', 'numeric'],
             'estoque_atual' => ['required', 'numeric'],
-            //'consumo_medio' => ['required', 'numeric'],
+            'consumo_medio' => ['required', 'numeric'],
             'qtd_entrega_padrao' => ['required', 'integer'],
             'lead_time' => ['required', 'integer'],
-            //'unidade_de_medida_id' => ['required', 'exists:unidades_de_medidas,id'],
+            'unidade_de_medida_id' => ['required', 'exists:unidades_de_medidas,id'],
             'id_externo' => ['required', 'string', Rule::unique('tanques', 'id_externo')->ignore($id)],
-            'ponto_de_pedido' => ['required', 'numeric'],
-            'ponto_de_entrega' => ['required', 'numeric'],
+            //'ponto_de_pedido' => ['required', 'numeric'],
+            //'ponto_de_entrega' => ['required', 'numeric'],
         ];
     }
 }
