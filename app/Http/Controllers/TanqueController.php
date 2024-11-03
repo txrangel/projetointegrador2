@@ -7,28 +7,30 @@ use App\Models\EstoqueFuturo;
 use App\Models\Planta;
 use App\Models\Tanque;
 use App\Models\UnidadeDeMedida;
-
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 class TanqueController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $tanques = Tanque::paginate(10);
-        return view('tanques.index', compact('tanques'));
+        $tanques = Tanque::paginate(perPage: 10);
+        return view(view: 'tanques.index', data: compact(var_name: 'tanques'));
     }
-    public function create()
-    {
-        $plantas = Planta::all();
-        $unidadesDeMedidas= UnidadeDeMedida::all();
-        return view('tanques.create',compact(['plantas','unidadesDeMedidas']));
-    }
-    public function edit($id)
+    public function create(): View
     {
         $plantas = Planta::all();
         $unidadesDeMedidas= UnidadeDeMedida::all();
-        $tanque = Tanque::findOrFail($id);
-        return view('tanques.edit', compact(['tanque','plantas','unidadesDeMedidas']));
+        return view(view: 'tanques.create',data: compact(var_name: ['plantas','unidadesDeMedidas']));
     }
-    public function store(TanqueCreateUpdate $request)
+    public function edit(int $id): View
+    {
+        $plantas = Planta::all();
+        $unidadesDeMedidas= UnidadeDeMedida::all();
+        $tanque = Tanque::findOrFail(id: $id);
+        return view(view: 'tanques.edit', data: compact(var_name: ['tanque','plantas','unidadesDeMedidas']));
+    }
+    public function store(TanqueCreateUpdate $request): RedirectResponse
     {
         try {
             $ponto_de_pedido = $request->ponto_de_pedido;
@@ -38,10 +40,10 @@ class TanqueController extends Controller
             }else if($ponto_de_entrega){
                 $ponto_de_pedido = $ponto_de_entrega + ($request->lead_time * $request->consumo_medio);
             }else{
-                return back()->with('error', 'Sem dados')->withInput(request()->all());
+                return back()->with(key: 'error', value: 'Sem dados')->withInput(input: request()->all());
             }
             $tanque = Tanque::create(
-    [                
+    attributes: [                
                     'planta_id'             => $request->planta_id,
                     'maximo'                => $request->maximo,
                     'minimo'                => $request->minimo,
@@ -56,21 +58,21 @@ class TanqueController extends Controller
                 ]
             );        
             // Fazer a requisição na rota 'estoque-futuro.store'
-            $response = $this->EstoqueFuturoStore($tanque->id);
+            $response = $this->EstoqueFuturoStore(id: $tanque->id);
             // Verificar se a requisição foi bem-sucedida
             if ($response->getStatusCode() == 201) {
-                return redirect()->route('tanques.index')->with('success', $tanque->id_externo . ' criado e estoque futuro atualizado!!!');
+                return redirect()->route(route: 'tanques.index')->with(key: 'success', value: $tanque->id_externo . ' criado e estoque futuro atualizado!!!');
             } else {
-                return back()->with('error', 'Erro ao atualizar o estoque futuro: ' . $response->body())->withInput(request()->all());
+                return back()->with(key: 'error', value: 'Erro ao atualizar o estoque futuro: ' . $response->body())->withInput(input: request()->all());
             }
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage())->withInput(request()->all());
+            return back()->with(key: 'error', value: $e->getMessage())->withInput(input: request()->all());
         }
     }
-    public function update(TanqueCreateUpdate $request, $id)
+    public function update(TanqueCreateUpdate $request, int $id): RedirectResponse
     {
         try {
-            $tanque = Tanque::findOrFail($id);
+            $tanque = Tanque::findOrFail(id: $id);
             $ponto_de_pedido = $request->ponto_de_pedido;
             $ponto_de_entrega = $request->ponto_de_entrega;
             if($ponto_de_pedido){
@@ -78,7 +80,7 @@ class TanqueController extends Controller
             }else if($ponto_de_entrega){
                 $ponto_de_pedido = $ponto_de_entrega + ($request->lead_time * $request->consumo_medio);
             }else{
-                return back()->with('error', 'Sem dados')->withInput(request()->all());
+                return back()->with(key: 'error', value: 'Sem dados')->withInput(input: request()->all());
             }
             $tanque->update(
                 [                
@@ -96,33 +98,34 @@ class TanqueController extends Controller
                 ]
             );  
             // Fazer a requisição na rota 'estoque-futuro.store'
-            $response = $this->EstoqueFuturoStore($tanque->id);
+            $response = $this->EstoqueFuturoStore(id: $tanque->id);
             // Verificar se a requisição foi bem-sucedida
             if ($response->getStatusCode() == 201) {
-                return redirect()->route('tanques.index')->with('success', $tanque->id_externo . ' alterado e estoque futuro atualizado!!!');
+                return redirect()->route(route: 'tanques.index')->with('success', value: $tanque->id_externo . ' alterado e estoque futuro atualizado!!!');
             } else {
-                return back()->with('error', 'Erro ao atualizar o estoque futuro: ' . $response->body())->withInput(request()->all());
+                return back()->with(key: 'error', value: 'Erro ao atualizar o estoque futuro: ' . $response->body())->withInput(input: request()->all());
             }
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage())->withInput(request()->all());
+            return back()->with(key: 'error', value: $e->getMessage())->withInput(input: request()->all());
         }
     }
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
         try {
-            $tanque = Tanque::findOrFail($id);
+            $tanque = Tanque::findOrFail(id: $id);
+            $tanque->estoqueFuturo()->delete();
             $tanque->delete();
-            return redirect()->route('tanques.index')->with('sucess', 'Item deletado!!!');
+            return redirect()->route(route: 'tanques.index')->with(key: 'sucess', value: 'Item deletado!!!');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with(key: 'error', value: $e->getMessage());
         }
     }
-    public function dashboard()
-    {
-        $tanquesModel = Tanque::with('EstoqueFuturo')->get();  // Carrega a relação 'dadosConsumo'
+    public function dashboard(): View
+    { 
+        $tanquesModel = Tanque::with(relations: 'EstoqueFuturo')->get();  // Carrega a relação 'dadosConsumo'
         $tanques = [];
         foreach ($tanquesModel as $tanque) {
-            $EstoqueFuturo = $tanque->EstoqueFuturo->map(function($estoque) {
+            $EstoqueFuturo = $tanque->EstoqueFuturo->map(function($estoque): array {
                 return [
                     'nivel' => $estoque->nivel,  // Substitua 'nivel' pelo campo correto
                     'data' => $estoque->data // Ou outros dados que precisar
@@ -133,15 +136,14 @@ class TanqueController extends Controller
                 'dados'=> $EstoqueFuturo,  // Aqui estará o array de níveis
             ];
         }
-        return view('dashboard', compact('tanques'));
+        return view(view: 'dashboard', data: compact(var_name: 'tanques'));
     }
 
-    private function EstoqueFuturoStore(int $id)
+    private function EstoqueFuturoStore(int $id): JsonResponse
     {
         try {
             // 1. Encontrar o tanque pelo ID
-            $tanque = Tanque::findOrFail($id);
-            //dd($tanque);
+            $tanque = Tanque::findOrFail(id: $id);
             // 2. Excluir todos os dados de estoque relacionados ao tanque
             $tanque->estoqueFuturo()->delete();//INATIVAR
             // 3. Inicializar o nível do estoque com o estoque atual do tanque
@@ -186,7 +188,7 @@ class TanqueController extends Controller
                     }
                 }
                 // 6. Criar um novo registro de estoque
-                EstoqueFuturo::create([
+                EstoqueFuturo::create(attributes: [
                     'data'          => $data,
                     'nivel'         => $nivel,
                     'tanque_id'     => $tanque->id,
@@ -195,13 +197,13 @@ class TanqueController extends Controller
                 ]);
             }
             // 7. Redirecionar ou retornar uma resposta de sucesso
-            return response()->json(null, 201);
+            return response()->json(data: null, status: 201);
         } catch (\Exception $e) {
             // Em caso de erro, retornar com mensagem de erro
-            return response()->json([
+            return response()->json(data: [
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], 500);
+            ], status: 500);
         }
     }
 }
