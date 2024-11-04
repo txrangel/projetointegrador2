@@ -42,4 +42,13 @@ class Tanque extends Model
     {
         return $this->hasMany(EstoqueFuturo::class, 'tanque_id');
     }
+    public function pedidos()
+    {
+        return $this->hasMany(PedidosFuturos::class, 'tanque_id');
+    }
+
+    public function entregas()
+    {
+        return $this->hasMany(EntregasFuturas::class, 'tanque_id');
+    }
 }

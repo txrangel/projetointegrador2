@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [TanqueController::class, 'store'])->name('tanques.store');
         Route::put('/update/{id}', [TanqueController::class, 'update'])->name('tanques.update');
         Route::delete('/delete/{id}', [TanqueController::class, 'delete'])->name('tanques.delete');
+        Route::get('/dados/{id}', [TanqueController::class, 'dados'])->name('tanques.dados');
     });
 
     // Rotas de DadoConsumo
@@ -63,7 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/{id}', [DadoConsumoController::class, 'delete'])->name('dados_consumo.delete');
     });
 
-    Route::get('/', [TanqueController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', [TanqueController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

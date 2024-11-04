@@ -21,9 +21,6 @@
                                 <th scope="col" class="px-6 py-3 tracking-wider">
                                     {{ __('ID Externo') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3 tracking-wider">
-                                    {{ __('Estoque Futuro') }}
-                                </th>
                                 <th scope="col" class="px-6 py-3 tracking-wider flex justify-center">
                                     {{ __('Ações') }}
                                 </th>
@@ -38,14 +35,10 @@
                                     <td class="px-6 py-4">
                                         {{ $tanque->id_externo }}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <ul>
-                                            @foreach ($tanque->estoqueFuturo as $estoque)
-                                                <li>{{ $estoque->data }}: {{ $estoque->nivel }} (Ponto de Pedido: {{ $estoque->ponto_pedido }}, Ponto de Entrega: {{ $estoque->ponto_entrega }})</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
                                     <td class="px-6 py-4 flex justify-center space-x-4">
+                                        <a href="{{ route('tanques.dados', $tanque->id) }}" class="text-green-600 dark:text-green-500 hover:underline">
+                                            {{ __('Dados') }}
+                                        </a>
                                         <a href="{{ route('tanques.edit', $tanque->id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">
                                             {{ __('Editar') }}
                                         </a>
