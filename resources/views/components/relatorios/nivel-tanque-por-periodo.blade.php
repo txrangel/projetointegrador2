@@ -1,6 +1,6 @@
-<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+<div class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg">
     <div class="p-6 text-gray-900 dark:text-gray-100">
-        <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+        <div class="w-full bg-white rounded-lg shadow-lg dark:bg-gray-800 p-4 md:p-6">
             <div class="flex justify-between">
                 <div class="grid gap-4 grid-cols-2">
                     <div>

@@ -155,25 +155,23 @@ class TanqueController extends Controller
                 $data                   = now()->addDays($i);
                 $nivel                  = $i == 0 ? $nivelEstoque : $nivel - $tanque->consumo_medio;
 
+                //Verifique se há uma entrega existente e atualize o nível
+                if ($PontoDeEntregaValido) {
+                    if ($nivel + $quantidadeTotalEntrega <= $tanque->maximo){
+                        $PontoDeEntregaValido   = false;
+                        $nivel                  += $quantidadeTotalEntrega;
+                        $quantidadeTotalEntrega = 0;
+                    }
+                }
+                
                 // Atualize entrega quando a data coincidir
                 if ($data->isSameDay(date: $dataEntrega) && $criou_pedido) {
                     $PontoDeEntregaValido   = true;
                     $criou_pedido           = false;
-                    $entrega = EntregasFuturas::create(attributes: [
-                        'tanque_id'     => $tanque->id,
-                        'nivel_atual'   => $nivel,
-                        'quantidade'    => $pedido->quantidade,
-                        'data'          => $data,
-                    ]);
-                }
-
-                //Verifique se há uma entrega existente e atualize o nível
-                if ($PontoDeEntregaValido) {
-                    if ($nivel + $entrega->quantidade <= $tanque->maximo){
-                        //dd($nivel,$entrega->quantidade);
-                        $PontoDeEntregaValido   = false;
-                        $nivel                  += $entrega->quantidade;
-                    }
+                    $entregasDoDia = EntregasFuturas::where('tanque_id', $tanque->id)
+                        ->whereDate('data', $data)
+                        ->get();
+                    $quantidadeTotalEntrega = $entregasDoDia->sum('quantidade');
                 }
 
                 // Verifica se é necessário criar um pedido
@@ -181,17 +179,27 @@ class TanqueController extends Controller
                     $PontoDePedidoValido    = true;
                     $criou_pedido           = true;
                     $dataEntrega            = $data->copy()->addDays(value: $tanque->lead_time);
-                    $quantidade_padrao      = intdiv(num1: ($tanque->maximo - $nivel),num2: $tanque->qtd_entrega_padrao) < 1 ? 1 : intdiv(num1: ($tanque->maximo - $nivel),num2: $tanque->qtd_entrega_padrao);
-                    $quantidade             = $tanque->qtd_entrega_padrao * 1;//$quantidade_padrao;
 
-                    $pedido = PedidosFuturos::create(attributes: [
-                        'tanque_id'     => $tanque->id,
-                        'nivel_atual'   => $nivel,
-                        'quantidade'    => $quantidade,
-                        'data'          => $data,
-                    ]);
-
-                    
+                    $quantidadeNecessaria = $tanque->ponto_de_pedido - $nivel;
+                    $quantidadePorEntrega = $tanque->qtd_entrega_padrao;
+                    $numEntregas          = intdiv(num1: $quantidadeNecessaria, num2: $quantidadePorEntrega);
+                    $numEntregas          = $numEntregas < 1 ? 1 : $numEntregas;
+                    //dd($numEntregas);
+                    for ($j = 0; $j < $numEntregas; $j++) {
+                        // Criar pedido e entrega correspondente
+                        PedidosFuturos::create(attributes: [
+                            'tanque_id'     => $tanque->id,
+                            'nivel_atual'   => $nivel,
+                            'quantidade'    => $quantidadePorEntrega,
+                            'data'          => $data,
+                        ]);
+                        EntregasFuturas::create([
+                            'tanque_id'     => $tanque->id,
+                            'nivel_atual'   => $nivel,
+                            'quantidade'    => $quantidadePorEntrega,
+                            'data'          => $dataEntrega,
+                        ]);
+                    }
                 }
 
                 // Cria o registro de Estoque Futuro
@@ -214,5 +222,4 @@ class TanqueController extends Controller
             ], status: 500);
         }
     }
-
 }

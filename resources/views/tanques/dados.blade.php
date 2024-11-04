@@ -17,7 +17,7 @@
                     <hr class="w-3/4 h-px my-4 bg-gray-900 border-0">
                     <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2">Tabelas</span>
                 </div>
-                <div class="grid grid-cols-2 gap-2 text-gray-900 dark:text-gray-100">
+                <div class="p-4 grid grid-cols-2 gap-4 text-gray-900 dark:text-gray-100 overflow-hidden">
                     @include('components.relatorios.pedidos-futuros', ['tanque' => $tanque])
                     @include('components.relatorios.entregas-futuras', ['tanque' => $tanque])
                 </div>
