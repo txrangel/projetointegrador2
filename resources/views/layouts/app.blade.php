@@ -19,6 +19,8 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     </head>
     <body class="font-sans antialiased">
+        <div id="overlay" class="fixed inset-0 bg-black bg-opacity-25 pointer-events-none z-50"></div>
+
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
 
